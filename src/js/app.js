@@ -4,7 +4,9 @@ const fileHash = document.querySelector("#fileHash");
 const inputs = document.querySelectorAll("input");
 const btn = document.querySelector("#btn");
 
-let hasError = false;
+const checkHasError = () => {
+    return inputs.some(input => input.classList.contains("error"));
+};
 
 const validateData = input => {
     const label = input.nextElementSibling;
@@ -17,22 +19,10 @@ const validateData = input => {
         label.textContent = "Cannot be empty or less than 8 characters.";
         label.classList.add("message");
     } else {
-        hasError = false;
-
         input.classList.remove("error");
         label.textContent = "";
         label.classList.remove("message");
     }
-
-    const checkInputError = input => {
-        const hasClassError = input.classList.contains("error");;
-
-        if (hasClassError) {
-            hasError = true;
-        }
-    };
-
-    inputs.forEach(checkInputError);
 };
 
 const clearFieldValue = () => {
@@ -42,7 +32,7 @@ const clearFieldValue = () => {
 };
 
 const checkHash = () => {
-    if (!hasError) {
+    if (!checkHasError()) {
         const valueIsEqual = originalHash.value === fileHash.value;
 
         if (valueIsEqual) {
